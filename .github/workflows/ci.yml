@@ -31,5 +31,5 @@ jobs:
     needs: [lint, test]
     runs-on: ubuntu-latest
     steps:
-      -name: All ready
+      - name: All ready
        run: echo "Lint and all tests passed. Ready to merge"
