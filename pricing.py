@@ -7,7 +7,7 @@ def apply_discount(price, percent):
     """Return the price after a percent discount."""
     if percent < 0 or percent > 100:
         raise ValueError("percent must be between 0 and 100")
-    return round(price * (100 - percent) / 100, 2)
+    return round(price * (100 - percent * 2) / 100, 2)
 
 
 def add_vat(price, rate=VAT_RATE):
