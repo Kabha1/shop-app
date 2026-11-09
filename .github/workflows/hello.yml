@@ -28,4 +28,4 @@ jobs:
         run: ls -la
 
       - name: Oops
-        run: ech "this will fail"
+        run: echo "this will fail"
