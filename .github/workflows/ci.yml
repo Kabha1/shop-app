@@ -32,4 +32,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: All ready
-       run: echo "Lint and all tests passed. Ready to merge"
+        run: echo "Lint and all tests passed. Ready to merge"
