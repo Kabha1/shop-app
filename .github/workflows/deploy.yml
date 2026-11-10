@@ -1,0 +1,54 @@
+name: Deploy site
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run tests
+        run: pytest -v
+      - name: Stamp store name and version
+        env:
+          STORE_NAME: ${{ vars.STORE_NAME || 'Shop App' }}
+        run: |
+          sed -i "s/__STORE__/$STORE_NAME/g" site/index.html
+          sed -i "s/__COMMIT__/${GITHUB_SHA::7}/" site/index.html
+      - name: Use a secret (it stays hidden)
+        env:
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+        run: |
+          echo "Token length: ${#API_TOKEN}"
+          echo "Trying to print it: $API_TOKEN"
+      - name: Prepare Pages
+        uses: actions/configure-pages@v6
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
