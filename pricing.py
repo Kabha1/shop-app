@@ -30,6 +30,7 @@ def apply_coupon(price, code):
         raise ValueError("unknown coupon code")
     return apply_discount(price, percent)
 
+
 FREE_SHIPPING_MIN = 200
 
 
