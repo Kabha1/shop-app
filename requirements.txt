@@ -1,4 +1,4 @@
 pytest
 ruff
 pytest-cov
-requests==2.19.1
+requests==2.34.2
