@@ -1,24 +1,10 @@
 name: CI
-
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.13"
-      - name: Install flake8
-        run: pip install flake8
-      - name: Lint
-        run: flake8 pricing.py tests/
-
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -32,10 +18,24 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run tests
-        run: pytest -v
-
+        run: pytest -v --cov=pricing --cov-report=term-missing --cov-report=markdown:coverage.md --cov-fail-under=90
+      - name: Coverage summary
+        if: always()
+        run: cat coverage.md >> "$GITHUB_STEP_SUMMARY"
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Install flake8
+        run: pip install flake8
+      - name: Run flake8
+        run: flake8 pricing.py tests/
   ready:
     needs: [lint, test]
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Lint and all tests passed. Ready to merge."
+      - name: All ready
+        run: echo "Lint and all tests passed. Ready to merge."
