@@ -1,0 +1,5 @@
+line-length = 88
+
+[lint]
+# E/W: style, F: real mistakes, I: import order, B: likely bugs
+select = ["E", "W", "F", "I", "B"]
