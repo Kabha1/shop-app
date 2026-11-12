@@ -19,6 +19,7 @@ def cart_total(prices):
     """Return the sum of all prices in the cart."""
     return round(sum(prices), 2)
 
+
 COUPONS = {"WELCOME10": 10, "VIP20": 20}
 
 
