@@ -29,10 +29,12 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
-      - name: Install flake8
-        run: pip install flake8
-      - name: Run flake8
-        run: flake8 pricing.py tests/
+      - name: Install ruff
+        run: pip install ruff
+      - name: lint
+        run: ruff check .
+      - name: Check formatting
+        run: ruff format --check .
   ready:
     needs: [lint, test]
     runs-on: ubuntu-latest
