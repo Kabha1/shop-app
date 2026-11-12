@@ -35,8 +35,21 @@ jobs:
         run: ruff check .
       - name: Check formatting
         run: ruff format --check .
+  security:
+     runs-on: ubuntu-latest
+     steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Install security tools
+        run: pip install bandit pip-audit
+      - name: Scan the code (Bandit)
+        run: bandit -r . -x ./tests
+      - name: Scan the dependencies (pip-audit)
+        run: pip-audit -r requirements.txt
   ready:
-    needs: [lint, test]
+    needs: [lint, test, security]
     runs-on: ubuntu-latest
     steps:
       - name: All ready
