@@ -4,3 +4,5 @@ logs/
 .coverage
 coverage.md
 coverage.xml
+__pycache__/
+*.pyc
