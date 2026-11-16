@@ -46,7 +46,7 @@ def shipping_cost(total):
 def loyalty_points(total):
     """Return loyalty points for a purchase."""
     if total > 500:
-        return total // 10
+        return total // 5
     elif total > 100:
         return total // 10
     return 0

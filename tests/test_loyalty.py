@@ -2,7 +2,7 @@ from pricing import loyalty_points
 
 
 def test_points_over_500():
-    assert loyalty_points(600) == 60
+    assert loyalty_points(600) == 120
 
 
 def test_points_over_100():
